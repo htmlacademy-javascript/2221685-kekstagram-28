@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Nika Buzynska](https://up.htmlacademy.ru/javascript/28/user/2221685).
-* Наставник: `Неизвестно`.
+* Наставник: `Евгений Казаков`(https://htmlacademy.ru/profile/id343981).
 
 ---
 
