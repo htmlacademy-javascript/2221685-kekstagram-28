@@ -44,7 +44,7 @@ const DESCRIPTION = [
   'Кажется, что каждая фотография - это маленький мир.',
   'Эта фотография как будто заставляет нас забыть о повседневности и наслаждаться прекрасным моментом.',
   'Невероятно, как эта фотография передает эмоции и заставляет нас вживаться в ситуацию.',
-]
+];
 
 let postId = 1;
 let CommentId = 1;
@@ -57,18 +57,17 @@ const getRandomInteger = (a, b) => {
 };
 
 const getComment = () => {
-  const randomComments = getRandomInteger(0, COMMENTS.length -1);
-  const randomAvatarNumber = getRandomInteger(1, 6)
-  const randomCommentId = getRandomInteger(1, 100);
+  const randomComments = getRandomInteger(0, COMMENTS.length - 1);
+  const randomAvatarNumber = getRandomInteger(1, 6);
   const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
 
   return {
     id: CommentId++,
-    avatar: 'img/avatar-' + randomAvatarNumber + '.svg',
+    avatar: `img/avatar-${randomAvatarNumber}.svg`,
     message: COMMENTS[randomComments],
     name: NAMES[randomNameIndex],
-  }
-}
+  };
+};
 
 const getPost = () => {
   const randomUrl = getRandomInteger(1, 25);
@@ -78,13 +77,12 @@ const getPost = () => {
 
   return {
     id: postId++,
-    url: 'photos/' + randomUrl + '.jpg',
+    url: `photos/${randomUrl}.jpg`,
     description: DESCRIPTION[randomDescription],
     likes: randomLikes,
     comments: Array.from({length: randomPostComments}, getComment),
   };
 };
 
-const createPost = Array.from({length: 25}, getPost);
+Array.from({length: 25}, getPost);
 
-console.log(createPost);
