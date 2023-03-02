@@ -84,4 +84,10 @@ const getPost = () => {
   };
 };
 
-Array.from({length: 25}, getPost);
+```
+// eslint-ignore
+
+const createPost = Array.from({length: 25}, getPost);
+
+console.log(createPost);
+```
