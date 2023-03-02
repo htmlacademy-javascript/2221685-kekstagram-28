@@ -85,4 +85,3 @@ const getPost = () => {
 };
 
 Array.from({length: 25}, getPost);
-
