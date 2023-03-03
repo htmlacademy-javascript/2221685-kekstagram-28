@@ -47,7 +47,7 @@ const DESCRIPTION = [
 ];
 
 let postId = 1;
-let CommentId = 1;
+let сommentId = 1;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -56,20 +56,20 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-const getComment = () => {
+const createComment = () => {
   const randomComments = getRandomInteger(0, COMMENTS.length - 1);
   const randomAvatarNumber = getRandomInteger(1, 6);
   const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
 
   return {
-    id: CommentId++,
+    id: сommentId++,
     avatar: `img/avatar-${randomAvatarNumber}.svg`,
     message: COMMENTS[randomComments],
     name: NAMES[randomNameIndex],
   };
 };
 
-const getPost = () => {
+const createPost = () => {
   const randomUrl = getRandomInteger(1, 25);
   const randomDescription = getRandomInteger(0, 25);
   const randomLikes = getRandomInteger(15, 200);
@@ -80,12 +80,12 @@ const getPost = () => {
     url: `photos/${randomUrl}.jpg`,
     description: DESCRIPTION[randomDescription],
     likes: randomLikes,
-    comments: Array.from({length: randomPostComments}, getComment),
+    comments: Array.from({length: randomPostComments}, createComment),
   };
 };
 
 
-const createPost = Array.from({length: 25}, getPost);
+const createPosts = () => Array.from({length: 25}, createPost);
 
 // eslint-ignore
-console.log(createPost);
+console.log(createPosts());
