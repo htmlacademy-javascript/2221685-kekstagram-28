@@ -1,11 +1,11 @@
-function getLength(sentence, maxLength) {
+function isLessThen(sentence, maxLength) {
   if (sentence.length <= maxLength) {
     return true;
   } else {
     return false;
   }
 }
-getLength('проверяемая строка', 20);
+isLessThen('проверяемая строка', 20);
 
 function isPalindrome(string) {
   string = string.toLowerCase();
