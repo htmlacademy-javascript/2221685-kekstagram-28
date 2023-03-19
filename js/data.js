@@ -67,14 +67,14 @@ const createComment = () => {
 const createPost = () => {
   const randomUrl = getRandomInteger(1, 25);
   const randomDescription = getRandomInteger(0, 25);
-  const randomLikes = getRandomInteger(15, 200);
+  const randomLikesCount = getRandomInteger(15, 200);
   const randomPostComments = getRandomInteger(1, 5);
 
   return {
     id: postId++,
     url: `photos/${randomUrl}.jpg`,
     description: DESCRIPTION[randomDescription],
-    likes: randomLikes,
+    likes: randomLikesCount,
     comments: Array.from({length: randomPostComments}, createComment),
   };
 };

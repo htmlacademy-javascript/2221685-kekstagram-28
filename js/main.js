@@ -1,4 +1,9 @@
 import { createPosts } from'./data.js';
 
-// eslint-ignore
-console.log(createPosts());
+import { renderPhotos } from './pictures.js'
+
+
+const photoArray = createPosts();
+
+renderPhotos(photoArray)
+
