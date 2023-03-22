@@ -32,7 +32,7 @@ const openBiggerPicture = function (pic) {
     commentFragment.appendChild(commentElement);
   });
   commentsUl.appendChild(commentFragment);
-}
+};
 
 document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {

@@ -15,7 +15,9 @@ const renderPhotos = (photos) => {
     pictureElement.querySelector('.picture__likes').textContent = pic.likes;
     sectionFagment.appendChild(pictureElement);
 
-    pictureElement.addEventListener('click', () => { openBiggerPicture(pic) })
+    pictureElement.addEventListener('click', () => {
+      openBiggerPicture(pic);
+    });
   });
   sectionPictures.appendChild(sectionFagment);
 
