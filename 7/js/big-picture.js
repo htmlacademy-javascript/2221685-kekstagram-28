@@ -13,6 +13,7 @@ const commentsCountSpan = bigPicture.querySelector('.comments-count');
 const currentCommentsCountSpan = bigPicture.querySelector('.current-comments-count');
 const bodyElement = document.querySelector('body');
 let displayedCommentsCount = 0;
+let loadMoreCommentsButtonClickHandler = null;
 
 const loadMoreComments = function (comments) {
   const commentFragment = document.createDocumentFragment();
@@ -68,13 +69,17 @@ const openBiggerPicture = function (pic) {
 
   commentsUl.innerHTML = '';
   loadMoreComments(pic.comments);
-  loadMoreCommentsButton.addEventListener('click', () => loadMoreComments(pic.comments));
+  loadMoreCommentsButtonClickHandler = () => loadMoreComments(pic.comments);
+  loadMoreCommentsButton.addEventListener('click', loadMoreCommentsButtonClickHandler);
 };
 
 const modalClose = function () {
   bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
+  loadMoreCommentsButton.classList.remove('hidden');
   displayedCommentsCount = 0;
+  loadMoreCommentsButton.removeEventListener('click', loadMoreCommentsButtonClickHandler);
+  loadMoreCommentsButtonClickHandler = null;
 };
 
 document.addEventListener('keydown', (evt) => {
