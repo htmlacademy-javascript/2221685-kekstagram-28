@@ -68,7 +68,7 @@ const createPost = () => {
   const randomUrl = getRandomInteger(1, 25);
   const randomDescription = getRandomInteger(0, 25);
   const randomLikesCount = getRandomInteger(15, 200);
-  const randomPostComments = getRandomInteger(1, 5);
+  const randomPostComments = getRandomInteger(1, 25);
 
   return {
     id: postId++,
