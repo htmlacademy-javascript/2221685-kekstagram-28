@@ -7,7 +7,35 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 const sectionFagment = document.createDocumentFragment();
 
 const renderPhotos = (photos) => {
+  /* photos
+  [{
+    id: number;
+    url: string;
+    description: string;
+    likes: number;
+    comments: [{
+        id: number;
+        avatar: string;
+        message: string;
+        name: string;
+    }];
+  }]
+  */
   photos.forEach((pic) => {
+  /* pic
+  {
+    id: number;
+    url: string;
+    description: string;
+    likes: number;
+    comments: [{
+        id: number;
+        avatar: string;
+        message: string;
+        name: string;
+    }];
+  }
+  */
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').alt = pic.description;
     pictureElement.querySelector('.picture__img').src = pic.url;
