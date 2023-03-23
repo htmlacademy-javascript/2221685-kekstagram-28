@@ -1,3 +1,5 @@
+import { openBiggerPicture } from './big-picture.js';
+
 const sectionPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
@@ -12,8 +14,13 @@ const renderPhotos = (photos) => {
     pictureElement.querySelector('.picture__comments').textContent = pic.comments.length;
     pictureElement.querySelector('.picture__likes').textContent = pic.likes;
     sectionFagment.appendChild(pictureElement);
+
+    pictureElement.addEventListener('click', () => {
+      openBiggerPicture(pic);
+    });
   });
   sectionPictures.appendChild(sectionFagment);
+
 };
 
 export {renderPhotos};
