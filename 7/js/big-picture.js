@@ -10,6 +10,7 @@ const commentsTemplate = document.querySelector('#comments').content.querySelect
 const commentsUl = document.querySelector('.social__comments');
 const loadMoreCommentsButton = document.querySelector('.comments-loader');
 const commentsCountSpan = bigPicture.querySelector('.comments-count');
+const currentCommentsCountSpan = bigPicture.querySelector('.current-comments-count');
 const bodyElement = document.querySelector('body');
 let displayedCommentsCount = 0;
 
@@ -34,6 +35,7 @@ const loadMoreComments = function (comments) {
   }
   commentsUl.appendChild(commentFragment);
   displayedCommentsCount += commentsToDisplay;
+  currentCommentsCountSpan.textContent = displayedCommentsCount;
 
   if (displayedCommentsCount >= totalCommentsCount) {
     loadMoreCommentsButton.classList.add('hidden');
@@ -69,17 +71,20 @@ const openBiggerPicture = function (pic) {
   loadMoreCommentsButton.addEventListener('click', () => loadMoreComments(pic.comments));
 };
 
+const modalClose = function () {
+  bigPicture.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  displayedCommentsCount = 0;
+};
+
 document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
-    bigPicture.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
-
+    modalClose();
   }
 });
 
 closeBigPictureButton.addEventListener('click', () => {
-  bigPicture.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
+  modalClose();
 });
 
 
