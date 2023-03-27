@@ -14,7 +14,6 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__text-error',
 });
 
-
 const inputHashtag = document.querySelector('.text__hashtags');
 
 pristine.addValidator(inputHashtag, (value) => {
@@ -47,19 +46,15 @@ function validateHashtags(hashtags) {
   for (let i = 0; i < hashtagsArray.length; i++) {
     const hash = hashtagsArray[i];
     const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-    console.log(1);
     if (hash.length === 0) {
       return false;
     }
-    console.log(2);
     if (!hashtag.test(hash)) {
       return false;
     }
-    console.log(3);
     if (hashtagCounts[hash] !== undefined) {
       return false;
     }
-    console.log(4);
     hashtagCounts[hash] = 1;
   }
   return true;
