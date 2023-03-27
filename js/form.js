@@ -9,7 +9,7 @@ const commentField = form.querySelector('.text__description');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__text',
-  errorTextParent: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__text',
   errorTextClass: 'img-upload__text-error',
 });
 
@@ -38,14 +38,6 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
-
-pristine.addValidator(commentField, (value) => {
-  if (value.length > 140) {
-    return false;
-  }
-  return true;
-}, 'Комментарий не может быть длиннее 140 символов');
-
 uploadFile.addEventListener('change', () => {
   imgUpload.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
@@ -69,3 +61,4 @@ document.addEventListener('keydown', (evt) => {
     uploadCancelButtonFunc();
   }
 });
+
