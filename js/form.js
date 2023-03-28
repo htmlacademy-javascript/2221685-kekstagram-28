@@ -93,7 +93,7 @@ scaleControlSmaller.addEventListener('click', () => {
   }else{
     scaleControlValue.value = currentValue - step;
   }
-  scaleControlValue.value = ${scaleControlValue.value}%;
+  scaleControlValue.value = `${scaleControlValue.value}%`;
 });
 
 scaleControlBigger.addEventListener('click', () => {
@@ -103,7 +103,7 @@ scaleControlBigger.addEventListener('click', () => {
   }else{
     scaleControlValue.value = currentValue + step;
   }
-  scaleControlValue.value = ${scaleControlValue.value}%;
+  scaleControlValue.value = `${scaleControlValue.value}%`;
 });
 
 export {validateHashtags};
