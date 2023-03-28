@@ -6,19 +6,18 @@ const uploadFile = form.querySelector('#upload-file');
 const imgUpload = form.querySelector('.img-upload__overlay');
 const uploadCancelButton = form.querySelector('#upload-cancel');
 const commentField = form.querySelector('.text__description');
+const textHashtags = form.querySelector('.text__hashtags');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__text',
-  errorTextParent: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__text',
   errorTextClass: 'img-upload__text-error',
 });
-
-const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
 
 const inputHashtag = document.querySelector('.text__hashtags');
 
 pristine.addValidator(inputHashtag, (value) => {
-  if (hashtag.test(value)) {
+  if (validateHashtags(value)) {
     console.log('Hashtag test true');
     return true;
   } else {
@@ -38,13 +37,29 @@ form.addEventListener('submit', (evt) => {
   }
 });
 
-
-pristine.addValidator(commentField, (value) => {
-  if (value.length > 140) {
+function validateHashtags(hashtags) {
+  const hashtagsArray = hashtags.trim().split(/\s+/);
+  if (hashtagsArray.length > 5) {
     return false;
   }
+  const hashtagCounts = {};
+  for (let i = 0; i < hashtagsArray.length; i++) {
+    const hash = hashtagsArray[i];
+    const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
+    if (hash.length === 0) {
+      return false;
+    }
+    if (!hashtag.test(hash)) {
+      return false;
+    }
+    if (hashtagCounts[hash] !== undefined) {
+      return false;
+    }
+    hashtagCounts[hash] = 1;
+  }
   return true;
-}, 'Комментарий не может быть длиннее 140 символов');
+}
+
 
 uploadFile.addEventListener('change', () => {
   imgUpload.classList.remove('hidden');
@@ -52,7 +67,7 @@ uploadFile.addEventListener('change', () => {
 });
 
 const uploadCancelButtonFunc = function (evt) {
-  if (document.activeElement === commentField) {
+  if (document.activeElement === commentField || document.activeElement === textHashtags) {
     evt.preventDefault();
   } else {
     imgUpload.classList.add('hidden');
@@ -69,3 +84,5 @@ document.addEventListener('keydown', (evt) => {
     uploadCancelButtonFunc();
   }
 });
+
+export {validateHashtags};
