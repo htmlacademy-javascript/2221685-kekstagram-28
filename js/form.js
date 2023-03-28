@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+
 const sectionPictures = document.querySelector('.pictures');
 const bodyElement = document.querySelector('body');
 const form = sectionPictures.querySelector('.img-upload__form');
@@ -7,6 +8,13 @@ const imgUpload = form.querySelector('.img-upload__overlay');
 const uploadCancelButton = form.querySelector('#upload-cancel');
 const commentField = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
+
+const step = 25;
+const minValue = 25;
+const maxValue = 100;
+const scaleControlSmaller = form.querySelector('.scale__control--smaller');
+const scaleControlBigger = form.querySelector('.scale__control--bigger');
+const scaleControlValue = form.querySelector('.scale__control--value');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -17,9 +25,7 @@ const pristine = new Pristine(form, {
 const inputHashtag = document.querySelector('.text__hashtags');
 
 pristine.addValidator(inputHashtag, (value) => {
-  if (validateHashtags(value)) {
     return validateHashtags(value);
-  }
 }, 'Hashtag is not valid', 2, false);
 
 form.addEventListener('submit', (evt) => {
@@ -78,6 +84,26 @@ document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
     uploadCancelButtonFunc(evt);
   }
+});
+
+scaleControlSmaller.addEventListener('click', () => {
+  const currentValue = parseInt(scaleControlValue.value, 10);
+  if (currentValue <= minValue) {
+    scaleControlValue.value = minValue;
+  }else{
+    scaleControlValue.value = currentValue - step;
+  }
+  scaleControlValue.value = ${scaleControlValue.value}%;
+});
+
+scaleControlBigger.addEventListener('click', () => {
+  const currentValue = parseInt(scaleControlValue.value, 10);
+  if(scaleControlBigger, currentValue >= maxValue) {
+    scaleControlValue.value = maxValue;
+  }else{
+    scaleControlValue.value = currentValue + step;
+  }
+  scaleControlValue.value = ${scaleControlValue.value}%;
 });
 
 export {validateHashtags};
