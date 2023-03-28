@@ -9,8 +9,8 @@ const commentField = form.querySelector('.text__description');
 const textHashtags = form.querySelector('.text__hashtags');
 
 const pristine = new Pristine(form, {
-  classTo: 'img-upload__text',
-  errorTextParent: 'img-upload__text',
+  classTo: 'img-upload__field-wrapper',
+  errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__text-error',
 });
 
@@ -18,13 +18,8 @@ const inputHashtag = document.querySelector('.text__hashtags');
 
 pristine.addValidator(inputHashtag, (value) => {
   if (validateHashtags(value)) {
-    console.log('Hashtag test true');
-    return true;
-  } else {
-    console.log('Hashtag test false');
-    return false;
+    return validateHashtags(value);
   }
-
 }, 'Hashtag is not valid', 2, false);
 
 form.addEventListener('submit', (evt) => {
@@ -75,13 +70,13 @@ const uploadCancelButtonFunc = function (evt) {
   }
 };
 
-uploadCancelButton.addEventListener('click', () => {
-  uploadCancelButtonFunc();
+uploadCancelButton.addEventListener('click', (evt) => {
+  uploadCancelButtonFunc(evt);
 });
 
 document.addEventListener('keydown', (evt) => {
   if (isEscapeKey(evt)) {
-    uploadCancelButtonFunc();
+    uploadCancelButtonFunc(evt);
   }
 });
 
