@@ -121,7 +121,7 @@ const resetFilters = () =>{
 };
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
-const effectLevelValue = imgUpload.querySelector('.effect-level__value');
+// const effectLevelValue = imgUpload.querySelector('.effect-level__value');
 
 noUiSlider.create(effectSlider, {
   range: {
