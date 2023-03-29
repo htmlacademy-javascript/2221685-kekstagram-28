@@ -139,7 +139,6 @@ const slider = noUiSlider.create(effectSlider, {
 });
 
 const applyFilter = (filterName, value) => {
-  console.log(filterName)
   switch (filterName) {
     case 'chrome':
       imgUploadPreview.style.filter = `grayscale(${value})`;
