@@ -132,8 +132,6 @@ noUiSlider.create(effectSlider, {
   step: 1,
 });
 
-
-
 effectsList.addEventListener('change', (evt) => {
   if (evt.target.matches('.effects__radio')) {
     resetFilters();
