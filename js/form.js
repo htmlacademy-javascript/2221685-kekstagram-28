@@ -16,6 +16,8 @@ const scaleControlSmaller = form.querySelector('.scale__control--smaller');
 const scaleControlBigger = form.querySelector('.scale__control--bigger');
 const scaleControlValue = form.querySelector('.scale__control--value');
 
+const imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
+
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -90,16 +92,20 @@ scaleControlSmaller.addEventListener('click', () => {
   }else{
     scaleControlValue.value = currentValue - step;
   }
+
+  imgUploadPreview.style.transform = `scale(${scaleControlValue.value / 100 })`;
   scaleControlValue.value = `${scaleControlValue.value}%`;
 });
 
 scaleControlBigger.addEventListener('click', () => {
+  // убрать % - преобразовывает строку в число
   const currentValue = parseInt(scaleControlValue.value, 10);
   if(scaleControlBigger, currentValue >= maxValue) {
     scaleControlValue.value = maxValue;
   }else{
     scaleControlValue.value = currentValue + step;
   }
+  imgUploadPreview.style.transform = `scale(${scaleControlValue.value / 100 })`;
   scaleControlValue.value = `${scaleControlValue.value}%`;
 });
 
@@ -121,23 +127,87 @@ const resetFilters = () =>{
 };
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
-const effectLevelValue = imgUpload.querySelector('.effect-level__value');
-
-noUiSlider.create(effectSlider, {
+const effectLevelValueInput = imgUpload.querySelector('.effect-level__value');
+// if sepia - range от 0-1 step 0,1
+const slider = noUiSlider.create(effectSlider, {
   range: {
     min: 0,
-    max: 100,
+    max: 1,
   },
-  start: 70,
-  step: 1,
+  start: 1,
+  step: 0.1,
 });
 
+const applyFilter = (filterName, value) => {
+  switch (filterName) {
+    case 'chrome':
+      imgUploadPreview.style.filter = `grayscale(${value})`;
+      break;
+    case 'sepia':
+      imgUploadPreview.style.filter = `sepia(${value})`;
+      break;
+    case 'marvin':
+      imgUploadPreview.style.filter = `invert(${value}%)`;
+      break;
+    case 'phobos':
+      imgUploadPreview.style.filter = `blur(${value}px)`;
+      break;
+    case 'heat':
+      imgUploadPreview.style.filter = `brightness(${value})`;
+      break;
+    default:
+      imgUploadPreview.style.filter = '';
+      break;
+  }
+};
 
+slider.on('update',() => {
+  const sliderValue = slider.get();
+  effectLevelValueInput.value = sliderValue;
+  const filterName = effectsList.querySelector('.effects__radio:checked').value;
+  applyFilter(filterName, sliderValue);
+});
+
+const effectLevelFieldset = imgUpload.querySelector('.img-upload__effect-level');
+effectLevelFieldset.classList.add('hidden');
 
 effectsList.addEventListener('change', (evt) => {
   if (evt.target.matches('.effects__radio')) {
     resetFilters();
     const effect = evt.target.value;
+    if (effect === 'none') {
+      effectLevelFieldset.classList.add('hidden');
+    } else {
+      effectLevelFieldset.classList.remove('hidden');
+    }
+    if(effect === 'chrome' || effect === 'sepia') {
+      slider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+    } else if(effect === 'marvin') {
+      slider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+    } else if(effect === 'phobos' || effect === 'heat') {
+      slider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+    }
     imgUploadPpreview.classList.add(`effects__preview--${effect}`);
   }
 });
