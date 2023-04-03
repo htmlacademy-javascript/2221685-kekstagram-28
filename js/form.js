@@ -1,4 +1,5 @@
 import { isEscapeKey } from './util.js';
+import { postData, successLoaingMsg } from './server.js';
 
 const sectionPictures = document.querySelector('.pictures');
 const bodyElement = document.querySelector('body');
@@ -17,12 +18,28 @@ const scaleControlBigger = form.querySelector('.scale__control--bigger');
 const scaleControlValue = form.querySelector('.scale__control--value');
 
 const imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
+const effectLevelFieldset = imgUpload.querySelector('.img-upload__effect-level');
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__text-error',
-});
+}, false);
+
+const closeForm = function () {
+  imgUpload.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+};
+
+const resetFilters = () =>{
+  imgUploadPpreview.classList.remove(
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  );
+};
 
 const inputHashtag = document.querySelector('.text__hashtags');
 
@@ -31,14 +48,33 @@ pristine.addValidator(inputHashtag, (value) => validateHashtags(value), 'Hashtag
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const isValid = pristine.validate();
+
+  function onSuccess () {
+    console.log('success');
+    form.reset();
+    effectLevelFieldset.classList.add('hidden');
+    imgUploadPreview.style.filter = '';
+    imgUploadPreview.style.transform = '';
+    resetFilters();
+    closeForm();
+    successLoaingMsg();
+    // показать сообщение об успешной отправке
+  }
+
+  const onError = () => console.log('error');
+
   if (isValid) {
-    console.log('Можно отправлять');
-  } else {
-    console.log('Форма невалидна');
+    postData(evt, onSuccess, onError);
   }
 });
 
+
 function validateHashtags(hashtags) {
+  if (hashtags.length === 0) {
+    return true;
+  }
+
+
   const hashtagsArray = hashtags.trim().split(/\s+/);
   if (hashtagsArray.length > 5) {
     return false;
@@ -70,8 +106,7 @@ const uploadCancelButtonFunc = function (evt) {
   if (document.activeElement === commentField || document.activeElement === textHashtags) {
     evt.preventDefault();
   } else {
-    imgUpload.classList.add('hidden');
-    bodyElement.classList.remove('modal-open');
+    closeForm();
   }
 };
 
@@ -92,6 +127,7 @@ scaleControlSmaller.addEventListener('click', () => {
   }else{
     scaleControlValue.value = currentValue - step;
   }
+
 
   imgUploadPreview.style.transform = `scale(${scaleControlValue.value / 100 })`;
   scaleControlValue.value = `${scaleControlValue.value}%`;
@@ -114,17 +150,6 @@ scaleControlBigger.addEventListener('click', () => {
 const effectsList = sectionPictures.querySelector('.effects__list');
 const imgUploadPpreview = sectionPictures.querySelector('.img-upload__preview');
 // const effectDefault = effectsList.querySelector('.effects__preview--none');
-
-
-const resetFilters = () =>{
-  imgUploadPpreview.classList.remove(
-    'effects__preview--chrome',
-    'effects__preview--sepia',
-    'effects__preview--marvin',
-    'effects__preview--phobos',
-    'effects__preview--heat'
-  );
-};
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
 const effectLevelValueInput = imgUpload.querySelector('.effect-level__value');
@@ -168,7 +193,6 @@ slider.on('update',() => {
   applyFilter(filterName, sliderValue);
 });
 
-const effectLevelFieldset = imgUpload.querySelector('.img-upload__effect-level');
 effectLevelFieldset.classList.add('hidden');
 
 effectsList.addEventListener('change', (evt) => {

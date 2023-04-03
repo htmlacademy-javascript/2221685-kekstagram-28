@@ -1,6 +1,7 @@
 const picsSection = document.querySelector('.pictures');
 
 const errorMessageDiv = document.createElement('div');
+const bodyElement = document.querySelector('body');
 
 const errorMsg = function () {
   errorMessageDiv.classList.add('error-message-server');
@@ -10,7 +11,7 @@ const errorMsg = function () {
   picsSection.appendChild(errorMessageDiv);
 };
 
-const createLoader = (onSuccess, onError) => () => fetch(
+const getData = (onSuccess, onError) => () => fetch(
   'https://28.javascript.pages.academy/kekstagram/data')
   .then((response) => {
     if (response.ok) {
@@ -26,4 +27,23 @@ const createLoader = (onSuccess, onError) => () => fetch(
   });
 
 
-export {createLoader};
+const postData = (evt, onSuccess, onError) => fetch('https://28.javascript.pages.academy/kekstagram',{
+  method: 'POST',
+  body: new FormData(evt.target),
+}).then((response) => {
+  if(response.ok) {
+    onSuccess();
+  } else {
+    throw new Error();
+  }
+}).catch(() => {
+  onError();
+});
+
+const successLoaingMsg = function () {
+  const successTemplate = document.querySelector('#success');
+  const successMsgElement = successTemplate.cloneNode(true);
+  bodyElement.appendChild(successMsgElement);
+};
+
+export {getData, postData, successLoaingMsg};
