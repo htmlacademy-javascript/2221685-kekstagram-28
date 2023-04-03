@@ -41,9 +41,15 @@ const postData = (evt, onSuccess, onError) => fetch('https://28.javascript.pages
 });
 
 const successLoaingMsg = function () {
-  const successTemplate = document.querySelector('#success');
+  const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successMsgElement = successTemplate.cloneNode(true);
   bodyElement.appendChild(successMsgElement);
 };
 
-export {getData, postData, successLoaingMsg};
+const errorLoaingMsg = function () {
+  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  const errorMsgElement = errorTemplate.cloneNode(true);
+  bodyElement.appendChild(errorMsgElement);
+};
+
+export {getData, postData, successLoaingMsg, errorLoaingMsg};

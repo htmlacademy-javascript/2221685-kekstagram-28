@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { postData, successLoaingMsg } from './server.js';
+import { postData, successLoaingMsg, errorLoaingMsg } from './server.js';
 
 const sectionPictures = document.querySelector('.pictures');
 const bodyElement = document.querySelector('body');
@@ -31,7 +31,26 @@ const closeForm = function () {
   bodyElement.classList.remove('modal-open');
 };
 
-const resetFilters = () =>{
+const successTemplate = document.querySelector('#success').content.querySelector('.success');
+const successSection = document.querySelector('.success');
+const successButton = successTemplate.querySelector('.success__button');
+
+const coolButtonOnUpload = function () {
+  successSection.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+};
+
+successButton.addEventListener('click', (evt) => {
+  coolButtonOnUpload(evt);
+});
+
+document.addEventListener('keydown', (evt) => {
+  if (isEscapeKey(evt)) {
+    coolButtonOnUpload(evt);
+  }
+});
+
+const resetFilters = () => {
   imgUploadPpreview.classList.remove(
     'effects__preview--chrome',
     'effects__preview--sepia',
@@ -39,6 +58,15 @@ const resetFilters = () =>{
     'effects__preview--phobos',
     'effects__preview--heat'
   );
+};
+
+const reset = function (){
+  form.reset();
+  effectLevelFieldset.classList.add('hidden');
+  imgUploadPreview.style.filter = '';
+  imgUploadPreview.style.transform = '';
+  resetFilters();
+  closeForm();
 };
 
 const inputHashtag = document.querySelector('.text__hashtags');
@@ -50,31 +78,21 @@ form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
 
   function onSuccess () {
-    console.log('success');
-    form.reset();
-    effectLevelFieldset.classList.add('hidden');
-    imgUploadPreview.style.filter = '';
-    imgUploadPreview.style.transform = '';
-    resetFilters();
-    closeForm();
+    reset();
     successLoaingMsg();
-    // показать сообщение об успешной отправке
   }
 
-  const onError = () => console.log('error');
+  const onError = () => errorLoaingMsg();
 
   if (isValid) {
     postData(evt, onSuccess, onError);
   }
 });
 
-
 function validateHashtags(hashtags) {
   if (hashtags.length === 0) {
     return true;
   }
-
-
   const hashtagsArray = hashtags.trim().split(/\s+/);
   if (hashtagsArray.length > 5) {
     return false;
@@ -107,6 +125,7 @@ const uploadCancelButtonFunc = function (evt) {
     evt.preventDefault();
   } else {
     closeForm();
+    reset()
   }
 };
 
@@ -149,11 +168,9 @@ scaleControlBigger.addEventListener('click', () => {
 
 const effectsList = sectionPictures.querySelector('.effects__list');
 const imgUploadPpreview = sectionPictures.querySelector('.img-upload__preview');
-// const effectDefault = effectsList.querySelector('.effects__preview--none');
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
 const effectLevelValueInput = imgUpload.querySelector('.effect-level__value');
-// if sepia - range от 0-1 step 0,1
 const slider = noUiSlider.create(effectSlider, {
   range: {
     min: 0,
