@@ -31,24 +31,24 @@ const closeForm = function () {
   bodyElement.classList.remove('modal-open');
 };
 
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const successSection = document.querySelector('.success');
-const successButton = successTemplate.querySelector('.success__button');
+// const successTemplate = document.querySelector('#success').content.querySelector('.success');
+// const successSection = document.querySelector('.success');
+// const successButton = successTemplate.querySelector('.success__button');
 
-const coolButtonOnUpload = function () {
-  successSection.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
-};
+// const coolButtonOnUpload = function () {
+//   successSection.classList.add('hidden');
+//   bodyElement.classList.remove('modal-open');
+// };
 
-successButton.addEventListener('click', (evt) => {
-  coolButtonOnUpload(evt);
-});
+// successButton.addEventListener('click', (evt) => {
+//   coolButtonOnUpload(evt);
+// });
 
-document.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    coolButtonOnUpload(evt);
-  }
-});
+// document.addEventListener('keydown', (evt) => {
+//   if (isEscapeKey(evt)) {
+//     coolButtonOnUpload(evt);
+//   }
+// });
 
 const resetFilters = () => {
   imgUploadPpreview.classList.remove(

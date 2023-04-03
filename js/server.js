@@ -1,3 +1,5 @@
+import { isEscapeKey } from './util.js';
+
 const picsSection = document.querySelector('.pictures');
 
 const errorMessageDiv = document.createElement('div');
@@ -44,12 +46,41 @@ const successLoaingMsg = function () {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successMsgElement = successTemplate.cloneNode(true);
   bodyElement.appendChild(successMsgElement);
+  const successButton = successMsgElement.querySelector('.success__button');
+  successButton.addEventListener('click', () => {
+    successMsgElement.remove();
+  });
+
+  successMsgElement.addEventListener('click', () => {
+    successMsgElement.remove();
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      successMsgElement.remove();
+    }
+  });
 };
 
 const errorLoaingMsg = function () {
   const errorTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMsgElement = errorTemplate.cloneNode(true);
   bodyElement.appendChild(errorMsgElement);
+
+  const errorButton = errorMsgElement.querySelector('.error__button');
+  errorButton.addEventListener('click', () => {
+    errorMsgElement.remove();
+  });
+
+  errorMsgElement.addEventListener('click', () => {
+    errorMsgElement.remove();
+  });
+
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      errorMsgElement.remove();
+    }
+  });
 };
 
 export {getData, postData, successLoaingMsg, errorLoaingMsg};
