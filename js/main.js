@@ -17,5 +17,3 @@ const onSucc = (data) => {
 const loadPhotosFunc = getData(onSucc, console.error);
 
 loadPhotosFunc();
-
-
