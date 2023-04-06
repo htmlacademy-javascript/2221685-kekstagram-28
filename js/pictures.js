@@ -69,8 +69,6 @@ const renderPhotos = (photos) => {
   const imgFiltersForm = document.querySelector('.img-filters__form');
   const imgFiltersButtons = imgFiltersForm.querySelectorAll('.img-filters__button');
 
-  // imgFiltersButtons.forEach((button) => {
-
   imgFiltersForm.addEventListener('click', debounce((evt) => {
     const button = evt.target;
     imgFiltersButtons.forEach((btn) => {
@@ -89,13 +87,6 @@ const renderPhotos = (photos) => {
       attachPhotosToUl(discussedPictures);
     }
   },500));
-  // });
-
-  // add listener to fitler buttons,
-  //  on fliter button click
-  //    you filter/shuffle the photoes
-  //    you need to call attachPhotosToUl(shuffledPhotos) with new a shuffled array
-  //    remember to clear up the UL list before attaching new photos
 };
 
 export {renderPhotos};
