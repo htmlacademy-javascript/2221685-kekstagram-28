@@ -50,16 +50,6 @@ const closeForm = function () {
 //   }
 // });
 
-const resetFilters = () => {
-  imgUploadPpreview.classList.remove(
-    'effects__preview--chrome',
-    'effects__preview--sepia',
-    'effects__preview--marvin',
-    'effects__preview--phobos',
-    'effects__preview--heat'
-  );
-};
-
 const reset = function (){
   form.reset();
   effectLevelFieldset.classList.add('hidden');
@@ -125,7 +115,7 @@ const uploadCancelButtonFunc = function (evt) {
     evt.preventDefault();
   } else {
     closeForm();
-    reset()
+    reset();
   }
 };
 
@@ -168,6 +158,16 @@ scaleControlBigger.addEventListener('click', () => {
 
 const effectsList = sectionPictures.querySelector('.effects__list');
 const imgUploadPpreview = sectionPictures.querySelector('.img-upload__preview');
+
+const resetFilters = () => {
+  imgUploadPpreview.classList.remove(
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  );
+};
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
 const effectLevelValueInput = imgUpload.querySelector('.effect-level__value');

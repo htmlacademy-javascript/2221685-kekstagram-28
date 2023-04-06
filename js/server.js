@@ -14,19 +14,17 @@ const errorMsg = function () {
 };
 
 const getData = (onSuccess, onError) => () => fetch(
-  'https://28.javascript.pages.academy/kekstagram/data')
-  .then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-  })
-  .then((data) => {
-    onSuccess(data);
-  })
-  .catch((err) => {
-    onError(err);
-    errorMsg();
-  });
+  'https://28.javascript.pages.academy/kekstagram/data'
+).then((response) => {
+  if (response.ok) {
+    return response.json();
+  }
+}).then((data) => {
+  onSuccess(data);
+}).catch((err) => {
+  onError(err);
+  errorMsg();
+});
 
 
 const postData = (evt, onSuccess, onError) => fetch('https://28.javascript.pages.academy/kekstagram',{
