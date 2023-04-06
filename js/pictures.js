@@ -66,29 +66,30 @@ const renderPhotos = (photos) => {
   attachPhotosToUl(photos);
   showFiltersField();
 
-  const imgFiltersButtons = document.querySelectorAll('.img-filters__button');
+  const imgFiltersForm = document.querySelector('.img-filters__form');
+  const imgFiltersButtons = imgFiltersForm.querySelectorAll('.img-filters__button');
 
-  imgFiltersButtons.forEach((button) => {
+  // imgFiltersButtons.forEach((button) => {
 
-    button.addEventListener('click', debounce(() => {
-      imgFiltersButtons.forEach((btn) => {
-        btn.classList.remove('img-filters__button--active');
-      });
-      button.classList.add('img-filters__button--active');
-      if (button.id === 'filter-default') {
-        attachPhotosToUl(photos);
-      }
-      if (button.id === 'filter-random') {
-        const shuffledPhotos = photos.slice().sort(shuffle);
-        attachPhotosToUl(shuffledPhotos);
-      }
-      if (button.id === 'filter-discussed') {
-        const discussedPictures = photos.slice().sort(filterButtonDiscussed);
-        attachPhotosToUl(discussedPictures);
-      }
-    },500
-    ));
-  });
+  imgFiltersForm.addEventListener('click', debounce((evt) => {
+    const button = evt.target;
+    imgFiltersButtons.forEach((btn) => {
+      btn.classList.remove('img-filters__button--active');
+    });
+    button.classList.add('img-filters__button--active');
+    if (button.id === 'filter-default') {
+      attachPhotosToUl(photos);
+    }
+    if (button.id === 'filter-random') {
+      const shuffledPhotos = photos.slice().sort(shuffle);
+      attachPhotosToUl(shuffledPhotos);
+    }
+    if (button.id === 'filter-discussed') {
+      const discussedPictures = photos.slice().sort(filterButtonDiscussed);
+      attachPhotosToUl(discussedPictures);
+    }
+  },500));
+  // });
 
   // add listener to fitler buttons,
   //  on fliter button click
