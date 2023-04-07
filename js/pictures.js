@@ -69,14 +69,7 @@ const renderPhotos = (photos) => {
   const imgFiltersForm = document.querySelector('.img-filters__form');
   const imgFiltersButtons = imgFiltersForm.querySelectorAll('.img-filters__button');
 
-  // imgFiltersButtons.forEach((button) => {
-
-  imgFiltersForm.addEventListener('click', debounce((evt) => {
-    const button = evt.target;
-    imgFiltersButtons.forEach((btn) => {
-      btn.classList.remove('img-filters__button--active');
-    });
-    button.classList.add('img-filters__button--active');
+  const applyFilter = debounce((button) => {
     if (button.id === 'filter-default') {
       attachPhotosToUl(photos);
     }
@@ -88,14 +81,17 @@ const renderPhotos = (photos) => {
       const discussedPictures = photos.slice().sort(filterButtonDiscussed);
       attachPhotosToUl(discussedPictures);
     }
-  },500));
-  // });
+  }, 500);
 
-  // add listener to fitler buttons,
-  //  on fliter button click
-  //    you filter/shuffle the photoes
-  //    you need to call attachPhotosToUl(shuffledPhotos) with new a shuffled array
-  //    remember to clear up the UL list before attaching new photos
+  imgFiltersForm.addEventListener('click', (evt) => {
+    const button = evt.target;
+    imgFiltersButtons.forEach((btn) => {
+      btn.classList.remove('img-filters__button--active');
+    });
+    button.classList.add('img-filters__button--active');
+    applyFilter(button);
+  });
 };
+
 
 export {renderPhotos};

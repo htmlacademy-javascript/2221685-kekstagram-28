@@ -20,6 +20,9 @@ const scaleControlValue = form.querySelector('.scale__control--value');
 const imgUploadPreview = imgUpload.querySelector('.img-upload__preview');
 const effectLevelFieldset = imgUpload.querySelector('.img-upload__effect-level');
 
+const effectsList = sectionPictures.querySelector('.effects__list');
+const imgUploadPpreview = sectionPictures.querySelector('.img-upload__preview');
+
 const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
@@ -31,24 +34,15 @@ const closeForm = function () {
   bodyElement.classList.remove('modal-open');
 };
 
-// const successTemplate = document.querySelector('#success').content.querySelector('.success');
-// const successSection = document.querySelector('.success');
-// const successButton = successTemplate.querySelector('.success__button');
-
-// const coolButtonOnUpload = function () {
-//   successSection.classList.add('hidden');
-//   bodyElement.classList.remove('modal-open');
-// };
-
-// successButton.addEventListener('click', (evt) => {
-//   coolButtonOnUpload(evt);
-// });
-
-// document.addEventListener('keydown', (evt) => {
-//   if (isEscapeKey(evt)) {
-//     coolButtonOnUpload(evt);
-//   }
-// });
+const resetFilters = () => {
+  imgUploadPpreview.classList.remove(
+    'effects__preview--chrome',
+    'effects__preview--sepia',
+    'effects__preview--marvin',
+    'effects__preview--phobos',
+    'effects__preview--heat'
+  );
+};
 
 const reset = function (){
   form.reset();
@@ -60,6 +54,7 @@ const reset = function (){
 };
 
 const inputHashtag = document.querySelector('.text__hashtags');
+const submitFormButton = bodyElement.querySelector('.img-upload__submit');
 
 pristine.addValidator(inputHashtag, (value) => validateHashtags(value), 'Hashtag is not valid', 2, false);
 
@@ -68,13 +63,18 @@ form.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
 
   function onSuccess () {
+    submitFormButton.disabled = false;
     reset();
     successLoaingMsg();
   }
 
-  const onError = () => errorLoaingMsg();
+  const onError = () => {
+    submitFormButton.disabled = false;
+    errorLoaingMsg();
+  };
 
   if (isValid) {
+    submitFormButton.disabled = true;
     postData(evt, onSuccess, onError);
   }
 });
@@ -153,21 +153,6 @@ scaleControlBigger.addEventListener('click', () => {
   imgUploadPreview.style.transform = `scale(${scaleControlValue.value / 100 })`;
   scaleControlValue.value = `${scaleControlValue.value}%`;
 });
-
-//фильтры
-
-const effectsList = sectionPictures.querySelector('.effects__list');
-const imgUploadPpreview = sectionPictures.querySelector('.img-upload__preview');
-
-const resetFilters = () => {
-  imgUploadPpreview.classList.remove(
-    'effects__preview--chrome',
-    'effects__preview--sepia',
-    'effects__preview--marvin',
-    'effects__preview--phobos',
-    'effects__preview--heat'
-  );
-};
 
 const effectSlider = imgUpload.querySelector('.effect-level__slider');
 const effectLevelValueInput = imgUpload.querySelector('.effect-level__value');
