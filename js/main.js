@@ -6,6 +6,6 @@ const onSucc = (data) => {
   renderPhotos(data);
 };
 
-const loadPhotosFunc = getData(onSucc, console.error);
+const loadPhotosFunc = getData(onSucc);
 
 loadPhotosFunc();
