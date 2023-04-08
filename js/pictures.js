@@ -12,40 +12,11 @@ const showFiltersField = () => {
 };
 
 const attachPhotosToUl = (photos) => {
-  /* photos
-  [{
-    id: number;
-    url: string;
-    description: string;
-    likes: number;
-    comments: [{
-        id: number;
-        avatar: string;
-        message: string;
-        name: string;
-    }];
-  }]
-  */
-
   const existingPictures = sectionPictures.querySelectorAll('.picture');
   if(existingPictures.length > 0){
     existingPictures.forEach((picture) => picture.remove());
   }
   photos.forEach((pic) => {
-  /* pic
-  {
-    id: number;
-    url: string;
-    description: string;
-    likes: number;
-    comments: [{
-        id: number;
-        avatar: string;
-        message: string;
-        name: string;
-    }];
-  }
-  */
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').alt = pic.description;
     pictureElement.querySelector('.picture__img').src = pic.url;

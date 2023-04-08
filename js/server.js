@@ -6,7 +6,7 @@ const errorMessageDiv = document.createElement('div');
 const bodyElement = document.querySelector('body');
 
 
-const errorMsg = function () {
+const showErrorMsg = () => {
   errorMessageDiv.classList.add('error-message-server');
   errorMessageDiv.textContent = 'ошибка, данные не загружены';
   errorMessageDiv.style.cssText =
@@ -23,7 +23,7 @@ const getData = (onSuccess) => () => fetch(
 }).then((data) => {
   onSuccess(data);
 }).catch(() => {
-  errorMsg();
+  showErrorMsg();
 });
 
 
@@ -40,7 +40,7 @@ const postData = (evt, onSuccess, onError) => fetch('https://28.javascript.pages
   onError();
 });
 
-const successLoaingMsg = function () {
+const successLoaingMsg = () => {
   const successTemplate = document.querySelector('#success').content.querySelector('.success');
   const successMsgElement = successTemplate.cloneNode(true);
   bodyElement.appendChild(successMsgElement);
@@ -53,14 +53,17 @@ const successLoaingMsg = function () {
     successMsgElement.remove();
   });
 
-  document.addEventListener('keydown', (evt) => {
+  const onEscSuccessMsgElement = (evt) => {
     if (isEscapeKey(evt)) {
       successMsgElement.remove();
+      document.removeEventListener('keydown', onEscSuccessMsgElement);
     }
-  });
+  };
+
+  document.addEventListener('keydown', onEscSuccessMsgElement);
 };
 
-const errorLoaingMsg = function () {
+const loadingErrorMsg = () => {
   const errorTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMsgElement = errorTemplate.cloneNode(true);
   bodyElement.appendChild(errorMsgElement);
@@ -74,11 +77,14 @@ const errorLoaingMsg = function () {
     errorMsgElement.remove();
   });
 
-  document.addEventListener('keydown', (evt) => {
+  const onEscErrorMsgElement = (evt) => {
     if (isEscapeKey(evt)) {
       errorMsgElement.remove();
+      document.removeEventListener('keydown', onEscErrorMsgElement);
     }
-  });
+  };
+
+  document.addEventListener('keydown', onEscErrorMsgElement);
 };
 
-export {getData, postData, successLoaingMsg, errorLoaingMsg};
+export {getData, postData, successLoaingMsg, loadingErrorMsg};

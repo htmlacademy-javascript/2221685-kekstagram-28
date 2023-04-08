@@ -1,13 +1,13 @@
-function isLessThen(sentence, maxLength) {
+const isLessThen = (sentence, maxLength) => {
   if (sentence.length <= maxLength) {
     return true;
   } else {
     return false;
   }
-}
+};
 isLessThen('проверяемая строка', 20);
 
-function isPalindrome(string) {
+const isPalindrome = (string) => {
   string = string.toLowerCase();
 
   if (string === string.split('').reverse().join('')){
@@ -15,10 +15,10 @@ function isPalindrome(string) {
   } else {
     return false;
   }
-}
+};
 isPalindrome('ДоВод');
 
-function parsedSignSentence(sentense) {
+const parsedSignSentence = (sentense) => {
   let result = '';
 
   for(let i = 0; i < sentense.length; i++) {
@@ -30,10 +30,10 @@ function parsedSignSentence(sentense) {
     }
   }
   return parseInt(result, 10);
-}
+};
 parsedSignSentence('2023 год');
 
-function addSymbol(string, min, pad) {
+const addSymbol = (string, min, pad) => {
   if(string.length >= min) {
     return string;
   } else {
@@ -51,5 +51,5 @@ function addSymbol(string, min, pad) {
     return result;
   }
 
-}
+};
 addSymbol('1', 2, '0');
