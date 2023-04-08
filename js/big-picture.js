@@ -15,7 +15,7 @@ const bodyElement = document.querySelector('body');
 let displayedCommentsCount = 0;
 let loadMoreCommentsButtonClickHandler = null;
 
-const loadMoreComments = function (comments) {
+const loadMoreComments = (comments) => {
   const commentFragment = document.createDocumentFragment();
   const totalCommentsCount = comments.length;
   const remainingComments = totalCommentsCount - displayedCommentsCount;
@@ -43,7 +43,7 @@ const loadMoreComments = function (comments) {
   }
 };
 
-const openBiggerPicture = function (pic) {
+const openBiggerPicture = (pic) => {
   /* pic
   {
     id: number;
@@ -73,23 +73,25 @@ const openBiggerPicture = function (pic) {
   loadMoreCommentsButton.addEventListener('click', loadMoreCommentsButtonClickHandler);
 };
 
-const modalClose = function () {
+const closeModal = () => {
   bigPicture.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   loadMoreCommentsButton.classList.remove('hidden');
   displayedCommentsCount = 0;
   loadMoreCommentsButton.removeEventListener('click', loadMoreCommentsButtonClickHandler);
   loadMoreCommentsButtonClickHandler = null;
+  document.removeEventListener('keydown', onEscapeCloseModal);
 };
-
-document.addEventListener('keydown', (evt) => {
+function onEscapeCloseModal (evt) {
   if (isEscapeKey(evt)) {
-    modalClose();
+    closeModal();
   }
-});
+}
+
+document.addEventListener('keydown', onEscapeCloseModal);
 
 closeBigPictureButton.addEventListener('click', () => {
-  modalClose();
+  closeModal();
 });
 
 

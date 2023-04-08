@@ -1,5 +1,5 @@
 import { isEscapeKey } from './util.js';
-import { postData, successLoaingMsg, errorLoaingMsg } from './server.js';
+import { postData, successLoaingMsg, loadingErrorMsg } from './server.js';
 
 const sectionPictures = document.querySelector('.pictures');
 const bodyElement = document.querySelector('body');
@@ -29,7 +29,7 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__text-error',
 }, false);
 
-const closeForm = function () {
+const closeForm = () => {
   imgUpload.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 };
@@ -44,7 +44,7 @@ const resetFilters = () => {
   );
 };
 
-const reset = function (){
+const reset = () => {
   form.reset();
   effectLevelFieldset.classList.add('hidden');
   imgUploadPreview.style.filter = '';
@@ -56,30 +56,7 @@ const reset = function (){
 const inputHashtag = document.querySelector('.text__hashtags');
 const submitFormButton = bodyElement.querySelector('.img-upload__submit');
 
-pristine.addValidator(inputHashtag, (value) => validateHashtags(value), 'Hashtag is not valid', 2, false);
-
-form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const isValid = pristine.validate();
-
-  function onSuccess () {
-    submitFormButton.disabled = false;
-    reset();
-    successLoaingMsg();
-  }
-
-  const onError = () => {
-    submitFormButton.disabled = false;
-    errorLoaingMsg();
-  };
-
-  if (isValid) {
-    submitFormButton.disabled = true;
-    postData(evt, onSuccess, onError);
-  }
-});
-
-function validateHashtags(hashtags) {
+const validateHashtags = (hashtags) => {
   if (hashtags.length === 0) {
     return true;
   }
@@ -103,19 +80,43 @@ function validateHashtags(hashtags) {
     hashtagCounts[hash] = 1;
   }
   return true;
-}
+};
+
+pristine.addValidator(inputHashtag, (value) => validateHashtags(value), 'Hashtag is not valid', 2, false);
+
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
+
+  const onSuccess = () => {
+    submitFormButton.disabled = false;
+    reset();
+    successLoaingMsg();
+  };
+
+  const onError = () => {
+    submitFormButton.disabled = false;
+    loadingErrorMsg();
+  };
+
+  if (isValid) {
+    submitFormButton.disabled = true;
+    postData(evt, onSuccess, onError);
+  }
+});
 
 uploadFile.addEventListener('change', () => {
   imgUpload.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
 });
 
-const uploadCancelButtonFunc = function (evt) {
+const uploadCancelButtonFunc = (evt) => {
   if (document.activeElement === commentField || document.activeElement === textHashtags) {
     evt.preventDefault();
   } else {
     closeForm();
     reset();
+    document.removeEventListener('keydown', onEscCancelButtonFunc);
   }
 };
 
@@ -123,11 +124,14 @@ uploadCancelButton.addEventListener('click', (evt) => {
   uploadCancelButtonFunc(evt);
 });
 
-document.addEventListener('keydown', (evt) => {
+function onEscCancelButtonFunc (evt) {
   if (isEscapeKey(evt)) {
     uploadCancelButtonFunc(evt);
   }
-});
+}
+
+document.addEventListener('keydown', onEscCancelButtonFunc);
+
 
 scaleControlSmaller.addEventListener('click', () => {
   const currentValue = parseInt(scaleControlValue.value, 10);
@@ -143,7 +147,6 @@ scaleControlSmaller.addEventListener('click', () => {
 });
 
 scaleControlBigger.addEventListener('click', () => {
-  // убрать % - преобразовывает строку в число
   const currentValue = parseInt(scaleControlValue.value, 10);
   if(scaleControlBigger, currentValue >= maxValue) {
     scaleControlValue.value = maxValue;
@@ -203,6 +206,7 @@ effectsList.addEventListener('change', (evt) => {
     const effect = evt.target.value;
     if (effect === 'none') {
       effectLevelFieldset.classList.add('hidden');
+      imgUploadPreview.style.filter = '';
     } else {
       effectLevelFieldset.classList.remove('hidden');
     }
