@@ -65,21 +65,18 @@ const validateHashtags = (hashtags) => {
     return false;
   }
   const hashtagCounts = {};
-  for (let i = 0; i < hashtagsArray.length; i++) {
-    const hash = hashtagsArray[i];
+  let validHashtags = true;
+  hashtagsArray.forEach((hash) => {
     const hashtag = /^#[a-zа-яё0-9]{1,19}$/i;
-    if (hash.length === 0) {
-      return false;
-    }
-    if (!hashtag.test(hash)) {
-      return false;
-    }
-    if (hashtagCounts[hash] !== undefined) {
-      return false;
+    if (hash.length === 0 || !hashtag.test(hash) || hashtagCounts[hash] !== undefined) {
+      validHashtags = false;
+      return;
     }
     hashtagCounts[hash] = 1;
-  }
-  return true;
+  });
+
+  return validHashtags;
+
 };
 
 pristine.addValidator(inputHashtag, (value) => validateHashtags(value), 'Hashtag is not valid', 2, false);
@@ -132,16 +129,9 @@ function onEscCancelButtonFunc (evt) {
 
 document.addEventListener('keydown', onEscCancelButtonFunc);
 
-
 scaleControlSmaller.addEventListener('click', () => {
   const currentValue = parseInt(scaleControlValue.value, 10);
-  if (currentValue <= minValue) {
-    scaleControlValue.value = minValue;
-  }else{
-    scaleControlValue.value = currentValue - step;
-  }
-
-
+  scaleControlValue.value = currentValue <= minValue ? minValue : currentValue - step;
   imgUploadPreview.style.transform = `scale(${scaleControlValue.value / 100 })`;
   scaleControlValue.value = `${scaleControlValue.value}%`;
 });

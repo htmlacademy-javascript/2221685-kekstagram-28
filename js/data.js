@@ -82,5 +82,3 @@ const createPost = () => {
 const createPosts = () => Array.from({length: 25}, createPost);
 
 export { createPosts };
-
-
