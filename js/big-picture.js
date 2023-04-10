@@ -19,12 +19,7 @@ const loadMoreComments = (comments) => {
   const commentFragment = document.createDocumentFragment();
   const totalCommentsCount = comments.length;
   const remainingComments = totalCommentsCount - displayedCommentsCount;
-  let commentsToDisplay;
-  if (remainingComments > 5) {
-    commentsToDisplay = 5;
-  } else {
-    commentsToDisplay = remainingComments;
-  }
+  const commentsToDisplay = remainingComments > 5 ? 5 : remainingComments;
   for (let i = displayedCommentsCount; i < displayedCommentsCount + commentsToDisplay; i++) {
     const comment = comments[i];
 
@@ -44,21 +39,6 @@ const loadMoreComments = (comments) => {
 };
 
 const openBiggerPicture = (pic) => {
-  /* pic
-  {
-    id: number;
-    url: string;
-    description: string;
-    likes: number;
-    comments: [{
-        id: number;
-        avatar: string;
-        message: string;
-        name: string;
-    }];
-  }
-  */
-
   bodyElement.classList.add('modal-open');
   bigPicture.classList.remove('hidden');
   bigPictureImg.src = pic.url;
