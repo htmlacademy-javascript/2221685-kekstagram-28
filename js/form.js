@@ -129,7 +129,6 @@ function onEscCancelButtonFunc (evt) {
 
 document.addEventListener('keydown', onEscCancelButtonFunc);
 
-
 scaleControlSmaller.addEventListener('click', () => {
   const currentValue = parseInt(scaleControlValue.value, 10);
   scaleControlValue.value = currentValue <= minValue ? minValue : currentValue - step;

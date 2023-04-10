@@ -4,7 +4,6 @@ import { shuffle, debounce } from './util.js';
 const sectionPictures = document.querySelector('.pictures');
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 
-
 const sectionFagment = document.createDocumentFragment();
 
 const showFiltersField = () => {
@@ -63,6 +62,5 @@ const renderPhotos = (photos) => {
     applyFilter(button);
   });
 };
-
 
 export {renderPhotos};

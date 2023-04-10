@@ -5,7 +5,6 @@ const picsSection = document.querySelector('.pictures');
 const errorMessageDiv = document.createElement('div');
 const bodyElement = document.querySelector('body');
 
-
 const showErrorMsg = () => {
   errorMessageDiv.classList.add('error-message-server');
   errorMessageDiv.textContent = 'ошибка, данные не загружены';
@@ -25,7 +24,6 @@ const getData = (onSuccess) => () => fetch(
 }).catch(() => {
   showErrorMsg();
 });
-
 
 const postData = (evt, onSuccess, onError) => fetch('https://28.javascript.pages.academy/kekstagram',{
   method: 'POST',
@@ -59,7 +57,6 @@ const successLoaingMsg = () => {
       document.removeEventListener('keydown', onEscSuccessMsgElement);
     }
   };
-
   document.addEventListener('keydown', onEscSuccessMsgElement);
 };
 
